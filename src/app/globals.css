@@ -1,26 +1,363 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
+
+/* ==========================================
+   Theme Variables
+========================================== */
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #333F4D;
+
+  --navy: #0C2D55;
+  --blue: #1565C0;
+  --teal: #00ACC1;
+
+  --brand-border: #DDE6F0;
+
+  --surface: #FFFFFF;
+  --surface-alt: #F5F7FA;
+
+  --radius: 8px;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-navy: var(--navy);
+  --color-blue: var(--blue);
+  --color-teal: var(--teal);
+
+  --color-brand-border: var(--brand-border);
+
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+
+  --font-sans: "Roboto", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ==========================================
+   Base
+========================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-color: var(--brand-border);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+}
+
+::selection {
+  background: #1565C0;
+  color: white;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/* ==========================================
+   Typography
+========================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+  font-weight: 700;
+  line-height: 1.2;
+  
+}
+
+
+
+/* ==========================================
+   Accessibility
+========================================== */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #1565C0;
+  outline-offset: 2px;
+}
+
+/* ==========================================
+   Layout Utilities
+========================================== */
+
+.container-x {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.section {
+  padding: 80px 0;
+}
+
+.section-sm {
+  padding: 60px 0;
+}
+
+.section-lg {
+  padding: 120px 0;
+}
+
+/* ==========================================
+   Buttons
+========================================== */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #1565C0;
+  color: #ffffff;
+
+  padding: 10px 20px;
+  border-radius: 6px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    background-color .2s ease,
+    color .2s ease,
+    border-color .2s ease,
+    transform .2s ease;
+}
+
+.btn-primary:hover {
+  background: #0d4a99;
+  transform: translateY(-1px);
+}
+
+.btn-outline-navy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #0C2D55;
+  background: #ffffff;
+  color: #0C2D55;
+
+  padding: 10px 20px;
+  border-radius: 6px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    background-color .2s ease,
+    color .2s ease,
+    border-color .2s ease,
+    transform .2s ease;
+}
+
+.btn-outline-navy:hover {
+  background: #0C2D55;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.btn-outline-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #ffffff;
+  color: #ffffff;
+
+  padding: 10px 20px;
+  border-radius: 6px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    background-color .2s ease,
+    color .2s ease,
+    border-color .2s ease,
+    transform .2s ease;
+}
+
+.btn-outline-white:hover {
+  background: #ffffff;
+  color: #0C2D55;
+  transform: translateY(-1px);
+}
+
+/* ==========================================
+   Cards
+========================================== */
+
+.card-base {
+  background: #ffffff;
+  border: 1px solid #DDE6F0;
+  border-radius: 8px;
+  padding: 24px;
+
+  transition:
+    border-color .2s ease,
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.card-base:hover {
+  border-color: #00ACC1;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================
+   Pills / Tags
+========================================== */
+
+.pill {
+  display: inline-block;
+
+  background: #F5F7FA;
+  border: 1px solid #DDE6F0;
+  color: #333F4D;
+
+  padding: 3px 10px;
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.pill-teal {
+  display: inline-block;
+
+  background: rgba(0, 172, 193, 0.1);
+  color: #00ACC1;
+
+  padding: 3px 10px;
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ==========================================
+   Text Utilities
+========================================== */
+
+.eyebrow {
+  color: #00ACC1;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.text-navy {
+  color: #0C2D55;
+}
+
+.text-body {
+  color: #333F4D;
+}
+
+.text-muted {
+  color: #6B7A8D;
+}
+
+/* ==========================================
+   Background Utilities
+========================================== */
+
+.bg-surface {
+  background: #FFFFFF;
+}
+
+.bg-surface-alt {
+  background: #F5F7FA;
+}
+
+.border-brand {
+  border-color: #DDE6F0;
+}
+
+/* ==========================================
+   Radius Utilities
+========================================== */
+
+.radius-sm {
+  border-radius: 6px;
+}
+
+.radius-md {
+  border-radius: 8px;
+}
+
+.radius-lg {
+  border-radius: 12px;
+}
+
+.radius-xl {
+  border-radius: 16px;
+}
+
+/* ==========================================
+   Animations
+========================================== */
+
+.page-fade {
+  animation: fadeIn .35s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
