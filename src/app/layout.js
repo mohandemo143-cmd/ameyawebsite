@@ -5,6 +5,11 @@ import Footer from "@/components/layout/Footer";
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      {/* 
+        By keeping these tags free of background utility classes (like bg-white), 
+        the atmospheric background gradient we set in global.css will successfully 
+        bleed through the entire application. 
+      */}
       <body>
         <Navbar />
         <main>{children}</main>

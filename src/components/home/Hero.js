@@ -1,246 +1,341 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
-function HeroIllustration() {
-  return (
-    <svg
-      viewBox="0 0 600 500"
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-full max-w-xl"
-    >
-      <defs>
-        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#E0F2FE" />
-          <stop offset="100%" stopColor="#F0F9FF" />
-        </linearGradient>
-        <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#1565C0" />
-          <stop offset="100%" stopColor="#0C2D55" />
-        </linearGradient>
-        <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#00ACC1" />
-          <stop offset="100%" stopColor="#1565C0" />
-        </linearGradient>
-        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="10" stdDeviation="15" floodOpacity="0.08" />
-        </filter>
-      </defs>
+// ==========================================
+// 1. WEBGL SHADER SOURCES
+// ==========================================
 
-      <path
-        d="M450,100 C550,150 500,300 400,350 C300,400 150,350 100,250 C50,150 150,50 250,50 C350,50 350,50 450,100 Z"
-        fill="url(#bgGradient)"
-        opacity="0.6"
-        filter="blur(40px)"
-      />
+const vertexShaderSource = `
+  attribute vec2 a_position;
+  void main() {
+    gl_Position = vec4(a_position, 0.0, 1.0);
+  }
+`;
 
-      <rect x="100" y="120" width="360" height="240" rx="16" fill="#ffffff" filter="url(#shadow)" />
+const fragmentShaderSource = `
+  precision highp float;
+  uniform vec2 iResolution;
+  uniform float iTime;
+
+  vec3 bgColor = vec3(0.01, 0.16, 0.42);
+  vec3 rectColor = vec3(0.01, 0.26, 0.57);
+
+  const float noiseIntensity = 2.8;
+  const float noiseDefinition = 0.6;
+  const vec2 glowPos = vec2(-2., 0.);
+
+  const float total = 60.0;
+  const float minSize = 0.03;
+  const float maxSize = 0.08 - 0.03;
+  const float yDistribution = 0.5;
+
+  float random(vec2 co){
+      return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+  }
+
+  float noise( in vec2 p ) {
+      p *= noiseIntensity;
+      vec2 i = floor( p );
+      vec2 f = fract( p );
+      vec2 u = f*f*(3.0-2.0*f);
+      return mix( mix( random( i + vec2(0.0,0.0) ), random( i + vec2(1.0,0.0) ), u.x),
+                  mix( random( i + vec2(0.0,1.0) ), random( i + vec2(1.0,1.0) ), u.x), u.y);
+  }
+
+  float fbm( in vec2 uv ) {
+      uv *= 5.0;
+      mat2 m = mat2( 1.6,  1.2, -1.2,  1.6 );
+      float f  = 0.5000*noise( uv ); uv = m*uv;
+      f += 0.2500*noise( uv ); uv = m*uv;
+      f += 0.1250*noise( uv ); uv = m*uv;
+      f += 0.0625*noise( uv ); uv = m*uv;
+      f = 0.5 + 0.5*f;
+      return f;
+  }
+
+  vec3 bg(vec2 uv ) {
+      float velocity = iTime/1.6;
+      float intensity = sin(uv.x*3.+velocity*2.)*1.1+1.5;
+      uv.y -= 2.;
+      vec2 bp = uv+glowPos;
+      uv *= noiseDefinition;
+
+      float rb = fbm(vec2(uv.x*.5-velocity*.03, uv.y))*.1;
+      uv += rb;
+
+      float rz = fbm(uv*.9+vec2(velocity*.35, 0.0));
+      rz *= dot(bp*intensity,bp)+1.2;
+
+      vec3 col = bgColor/(.1-rz);
+      return sqrt(abs(col));
+  }
+
+  float rectangle(vec2 uv, vec2 pos, float width, float height, float blur) {
+      pos = (vec2(width, height) + .01)/2. - abs(uv - pos);
+      pos = smoothstep(0., blur , pos);
+      return pos.x * pos.y; 
+  }
+
+  mat2 rotate2d(float _angle){
+      return mat2(cos(_angle),-sin(_angle),
+                  sin(_angle),cos(_angle));
+  }
+
+  void main() {
+      vec2 fragCoord = gl_FragCoord.xy;
+      vec2 uv = fragCoord.xy / iResolution.xy * 2. - 1.;
+      uv.x *= iResolution.x/iResolution.y;
       
-      <path
-        d="M100 136 C100 127.163 107.163 120 116 120 L444 120 C452.837 120 460 127.163 460 136 L460 160 L100 160 Z"
-        fill="#F8FAFC"
-      />
-      <circle cx="124" cy="140" r="6" fill="#FF5F56" />
-      <circle cx="144" cy="140" r="6" fill="#FFBD2E" />
-      <circle cx="164" cy="140" r="6" fill="#27C93F" />
-      <rect x="280" y="134" width="100" height="12" rx="6" fill="#E2E8F0" />
-
-      <path
-        d="M120 320 L120 260 C150 240 180 280 210 250 C240 220 270 260 300 230 C330 200 360 240 390 210 L440 210 L440 320 Z"
-        fill="url(#accentGradient)"
-        opacity="0.1"
-      />
-      <path
-        d="M120 260 C150 240 180 280 210 250 C240 220 270 260 300 230 C330 200 360 240 390 210 L440 210"
-        fill="none"
-        stroke="url(#accentGradient)"
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
+      vec3 color = bg(uv)*(2.-abs(uv.y*2.));
       
-      <circle cx="210" cy="250" r="5" fill="#ffffff" stroke="#00ACC1" strokeWidth="3" />
-      <circle cx="300" cy="230" r="5" fill="#ffffff" stroke="#1565C0" strokeWidth="3" />
-      <circle cx="390" cy="210" r="5" fill="#ffffff" stroke="#0C2D55" strokeWidth="3" />
-
-      <g filter="url(#shadow)">
-        <rect x="40" y="80" width="140" height="80" rx="12" fill="#ffffff" />
-        <circle cx="70" cy="110" r="16" fill="#E0F2FE" />
-        <path
-          d="M64 110 L68 114 L76 106"
-          fill="none"
-          stroke="#00ACC1"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <rect x="96" y="100" width="60" height="8" rx="4" fill="#E2E8F0" />
-        <rect x="96" y="116" width="40" height="6" rx="3" fill="#CBD5E1" />
-      </g>
-
-      <g filter="url(#shadow)">
-        <rect x="380" y="300" width="160" height="100" rx="12" fill="#ffffff" />
-        <rect x="400" y="320" width="80" height="10" rx="5" fill="#0C2D55" />
-        <rect x="400" y="340" width="120" height="6" rx="3" fill="#E2E8F0" />
-        <rect x="400" y="356" width="90" height="6" rx="3" fill="#E2E8F0" />
-        <rect x="400" y="376" width="12" height="12" rx="2" fill="#00ACC1" />
-        <rect x="420" y="368" width="12" height="20" rx="2" fill="#1565C0" />
-        <rect x="440" y="380" width="12" height="8" rx="2" fill="#00ACC1" />
-        <rect x="460" y="360" width="12" height="28" rx="2" fill="#0C2D55" />
-      </g>
-
-      <g filter="url(#shadow)">
-        <rect x="420" y="60" width="120" height="120" rx="16" fill="#ffffff" />
-        <circle cx="480" cy="120" r="36" fill="none" stroke="#F1F5F9" strokeWidth="8" />
-        <circle
-          cx="480"
-          cy="120"
-          r="36"
-          fill="none"
-          stroke="url(#primaryGradient)"
-          strokeWidth="8"
-          strokeDasharray="160 226"
-          strokeLinecap="round"
-          transform="rotate(-90 480 120)"
-        />
-        <text
-          x="480"
-          y="126"
-          textAnchor="middle"
-          fontSize="16"
-          fontWeight="bold"
-          fill="#0C2D55"
-        >
-          72%
-        </text>
-      </g>
-
-      <circle cx="80" cy="380" r="4" fill="#00ACC1" opacity="0.6" />
-      <circle cx="120" cy="420" r="6" fill="#1565C0" opacity="0.4" />
-      <path
-        d="M80 380 L120 420"
-        stroke="#00ACC1"
-        strokeWidth="1"
-        opacity="0.3"
-        strokeDasharray="4 4"
-      />
+      float velX = -iTime/8.;
+      float velY = iTime/10.;
       
-      <circle cx="520" cy="240" r="5" fill="#0C2D55" opacity="0.5" />
-      <circle cx="560" cy="200" r="3" fill="#1565C0" opacity="0.6" />
-      <path
-        d="M520 240 L560 200"
-        stroke="#0C2D55"
-        strokeWidth="1"
-        opacity="0.3"
-        strokeDasharray="4 4"
-      />
-    </svg>
-  );
-}
-
-export default function Hero() {
-  const backgroundImageUrl = "/66.png";
-  const [imgFailed, setImgFailed] = useState(false);
-  const imgRef = useRef(null);
-
-  // FIX 1: This checks if the browser already tried to load the image and failed 
-  // before React had a chance to attach the onError event (fixes the refresh bug).
-  useEffect(() => {
-    if (imgRef.current) {
-      // If the image tag is marked as "complete" but its natural width is 0, it means it's broken.
-      if (imgRef.current.complete && imgRef.current.naturalWidth === 0) {
-        setImgFailed(true);
+      for(int i = 0; i < 60; i++){
+          float fi = float(i);
+          float index = fi/total;
+          float rnd = random(vec2(index));
+          vec3 pos = vec3(0.0, 0.0, 0.0);
+          pos.x = fract(velX*rnd+index)*4.-2.0;
+          pos.y = sin(index*rnd*1000.+velY) * yDistribution;
+          pos.z = maxSize*rnd+minSize;
+          
+          vec2 uvRot = uv - pos.xy + pos.z/2.;
+          uvRot = rotate2d( fi+iTime/2. ) * uvRot;
+          uvRot += pos.xy+pos.z/2.;
+          
+          float rect = rectangle(uvRot, pos.xy, pos.z, pos.z, (maxSize+minSize-pos.z)/2.);
+          color += rectColor * rect * pos.z/maxSize;
       }
+      
+      gl_FragColor = vec4(color, 1.0);
+  }
+`;
+
+// ==========================================
+// 2. CANVAS BACKGROUND COMPONENT
+// ==========================================
+
+function ShaderBackground() {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const gl = canvas.getContext("webgl");
+    if (!gl) {
+      console.error("WebGL not supported");
+      return;
     }
+
+    // Compile Shader
+    const compileShader = (type, source) => {
+      const shader = gl.createShader(type);
+      if (!shader) return null;
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        console.error(gl.getShaderInfoLog(shader));
+        gl.deleteShader(shader);
+        return null;
+      }
+      return shader;
+    };
+
+    const vertexShader = compileShader(gl.VERTEX_SHADER, vertexShaderSource);
+    const fragmentShader = compileShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
+    if (!vertexShader || !fragmentShader) return;
+
+    // Create Program
+    const program = gl.createProgram();
+    if (!program) return;
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
+
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.error(gl.getProgramInfoLog(program));
+      return;
+    }
+    gl.useProgram(program);
+
+    // Setup Buffers (Full screen quad)
+    const positionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array([
+        -1.0, -1.0,
+         1.0, -1.0,
+        -1.0,  1.0,
+        -1.0,  1.0,
+         1.0, -1.0,
+         1.0,  1.0,
+      ]),
+      gl.STATIC_DRAW
+    );
+
+    const positionLocation = gl.getAttribLocation(program, "a_position");
+    gl.enableVertexAttribArray(positionLocation);
+    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+    // Get Uniform Locations
+    const iResolutionLocation = gl.getUniformLocation(program, "iResolution");
+    const iTimeLocation = gl.getUniformLocation(program, "iTime");
+
+    let animationFrameId;
+    const startTime = performance.now();
+
+    const render = () => {
+      // Handle resizing
+      if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+        gl.viewport(0, 0, canvas.width, canvas.height);
+      }
+
+      // Update uniforms
+      const currentTime = (performance.now() - startTime) / 1000.0;
+      gl.uniform2f(iResolutionLocation, canvas.width, canvas.height);
+      gl.uniform1f(iTimeLocation, currentTime);
+
+      // Draw
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      gl.deleteProgram(program);
+    };
   }, []);
 
   return (
-    // Added the background color to the main section so there's no white flashes behind the image
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-100">
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full -z-10 block"
+    />
+  );
+}
+
+// ==========================================
+// 3. MAIN HERO COMPONENT
+// ==========================================
+
+export default function Hero() {
+  return (
+    // Added justify-center to vertically center the content perfectly
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       
-      {/* Condition 1 & 2 (Mobile & Image Fail Layout) */}
-      <div className={`w-full z-10 ${!imgFailed ? "md:hidden" : "block"}`}>
-        <div className="container-x relative z-10 grid lg:grid-cols-2 gap-12 items-center py-20">
-          {/* Left Content */}
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center rounded-full bg-white/80 backdrop-blur-md px-4 py-1.5 text-sm font-semibold text-blue-700 border border-blue-200 mb-6 shadow-sm">
-              <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-              IT Services & Consulting — Hyderabad
-            </div>
+      {/* WEBGL SHADER BACKGROUND */}
+      <ShaderBackground />
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-tight">
-              Custom{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">
-                Software
-              </span>{" "}
-              Solutions for Growing Businesses
-            </h1>
+      <div className="container-x relative z-10 w-full flex flex-col items-center justify-center text-center px-4">
 
-            <p className="mt-6 text-base md:text-lg text-slate-700 leading-relaxed max-w-xl">
-              We deliver custom software development, AI automation,
-              SAP services, cloud solutions and enterprise applications
-              that help businesses operate more efficiently and scale faster.
-            </p>
-
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/services"
-                className="group inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 px-8 py-4 text-sm font-semibold text-white shadow-xl hover:scale-105 transition-all duration-300"
-              >
-                Our Services
-                <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
-
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center rounded-lg bg-white/80 backdrop-blur-md border border-slate-200 px-8 py-4 text-sm font-semibold text-slate-800 hover:bg-white transition-all duration-300"
-              >
-                Contact Us
-              </Link>
-            </div>
-
-            <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-slate-200">
-              {[
-                ["100+", "Projects"],
-                ["50+", "Clients"],
-                ["8+", "Years"],
-                ["99%", "Satisfaction"],
-              ].map(([number, label], index) => (
-                <div key={index} className="text-center sm:text-left">
-                  <div className="text-3xl md:text-4xl font-bold text-slate-900">{number}</div>
-                  <div className="text-sm text-slate-600 mt-1 font-medium">{label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right Side Fallback Illustration */}
-          <div className="hidden lg:flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-lg">
-              <div className="relative rounded-3xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-2xl p-4">
-                <HeroIllustration />
-              </div>
-            </div>
-          </div>
+        {/* Badge */}
+        <div className="inline-flex items-center gap-2.5 rounded-full bg-white/10 backdrop-blur-md px-4 py-2 text-sm font-semibold text-cyan-200 border border-white/20 mb-8 shadow-xl">
+          <span className="relative flex h-2 w-2 shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500" />
+          </span>
+          IT Services &amp; Consulting — Hyderabad
         </div>
-      </div>
 
-      {/* Condition 3 (Desktop Success Layout) */}
-      <div className={`absolute inset-0 w-full h-full z-0 hidden ${!imgFailed ? "md:block" : "!hidden"}`}>
-        <img
-          ref={imgRef}
-          src={backgroundImageUrl}
-          alt="Clean Full Visibility Hero Background"
-          onError={() => setImgFailed(true)}
-          /* FIX 2: Changed from object-cover object-top to object-contain object-center so NO text is ever cut off */
-          className="w-full h-full object-contain object-center m-0 p-0 block opacity-100"
-        />
-      </div>
+        {/* Heading */}
+       {/* Heading */}
+<h1 className="max-w-5xl font-extrabold leading-[1.05] tracking-tight text-center">
+  <span className="block text-white text-5xl md:text-6xl lg:text-7xl drop-shadow-[0_6px_25px_rgba(0,0,0,0.6)]">
+    Ameya IT Solutions
+  </span>
 
+<p className="mt-7 text-base md:text-lg text-blue-100/80 leading-relaxed max-w-2xl mx-auto">
+        Custom Software Development for Modern Businesses
+        </p>
+
+ 
+</h1>
+
+        
+
+        {/* CTA Buttons */}
+        <div className="mt-10 flex flex-wrap justify-center gap-4">
+         <Link
+  href="/services"
+  className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl
+  bg-gradient-to-r from-cyan-400 via-sky-500 to-blue-600
+  px-8 py-3.5
+  text-sm font-semibold text-white
+  shadow-[0_10px_35px_rgba(14,165,233,0.35)]
+  transition-all duration-300
+  hover:-translate-y-1
+  hover:scale-[1.03]
+  hover:shadow-[0_18px_45px_rgba(14,165,233,0.55)]
+  active:scale-95"
+>
+  {/* Animated Shine */}
+  <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+
+  {/* Glow Overlay */}
+  <span className="absolute inset-0 bg-gradient-to-r from-cyan-300/20 to-blue-400/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+  {/* Content */}
+  <span className="relative flex items-center gap-2">
+    Our Services
+
+    <svg
+      className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M17 8l4 4m0 0l-4 4m4-4H3"
+      />
+    </svg>
+  </span>
+</Link>
+
+      <Link
+  href="/contact"
+  className="group inline-flex items-center gap-2 rounded-xl
+  border-2 border-white
+  bg-transparent
+  px-8 py-3.5
+  text-sm font-semibold
+  text-white
+  transition-all duration-300
+  hover:bg-white
+  hover:text-slate-900
+  hover:shadow-xl
+  hover:scale-105"
+>
+  Contact Us
+
+  <svg
+    className="w-4 h-4 transition-transform group-hover:translate-x-1"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M17 8l4 4m0 0l-4 4m4-4H3"
+    />
+  </svg>
+</Link>
+        </div>
+
+      </div>
     </section>
   );
 }

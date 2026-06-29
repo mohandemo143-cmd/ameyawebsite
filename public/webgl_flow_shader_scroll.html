@@ -1,0 +1,200 @@
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+#glWrap{position:relative;width:100%;height:520px;overflow:hidden;border-radius:12px;border:0.5px solid var(--border)}
+#gc{position:absolute;top:0;left:0;width:100%;height:100%;display:block}
+.pb{position:absolute;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,#38bdf8,#a78bfa,#fb923c);z-index:10;transition:width .06s linear}
+.snav{position:absolute;right:14px;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;gap:9px}
+.sd{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.22);cursor:pointer;transition:all .3s;border:1px solid rgba(255,255,255,.3)}
+.sd.a{background:#fff;transform:scale(1.5);border-color:#fff}
+.ov{position:absolute;top:0;left:0;width:100%;height:100%;z-index:5;pointer-events:none;overflow:hidden}
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.slide.vis{opacity:1;transform:translateY(0)}
+.card{background:rgba(255,255,255,.055);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.13);border-radius:20px;padding:32px 40px;max-width:440px;text-align:center;color:#fff;pointer-events:all}
+.tag{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:14px;font-family:monospace}
+.ch{font-size:2.6rem;font-weight:800;line-height:1.05;background:linear-gradient(135deg,#fff 0%,rgba(255,255,255,.55) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px}
+.cs{font-size:.88rem;color:rgba(255,255,255,.5);line-height:1.65}
+.srow{display:flex;justify-content:space-around;margin-top:22px;padding-top:22px;border-top:1px solid rgba(255,255,255,.08)}
+.sn{font-size:1.55rem;font-weight:700;color:#fff}.sd2{font-size:10px;color:rgba(255,255,255,.32);letter-spacing:1px;text-transform:uppercase;margin-top:3px}
+.arw{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:7px solid rgba(255,255,255,.4);margin:10px auto 0;animation:bd 1.4s ease-in-out infinite}
+@keyframes bd{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+.scrbar{position:absolute;left:14px;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;align-items:center;gap:3px}
+.scrlbl{font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.28);text-transform:uppercase;writing-mode:vertical-rl;text-orientation:mixed}
+.pct{font-size:11px;font-weight:600;color:rgba(255,255,255,.55);font-family:monospace;margin-top:6px}
+.sclbtn{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:8px}
+.sbtn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.65);font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:20px;cursor:pointer;transition:all .2s}
+.sbtn:hover{background:rgba(255,255,255,.15);color:#fff}
+.sbtn.act{background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.4)}
+</style>
+
+<div id="glWrap">
+  <canvas id="gc"></canvas>
+  <div class="pb" id="pb"></div>
+  <div class="snav">
+    <div class="sd a" id="d0"></div>
+    <div class="sd" id="d1"></div>
+    <div class="sd" id="d2"></div>
+    <div class="sd" id="d3"></div>
+  </div>
+  <div class="scrbar">
+    <div class="scrlbl">scroll</div>
+    <div class="pct" id="pct">0%</div>
+  </div>
+  <div class="ov">
+    <div class="slide vis" id="s0">
+      <div class="card">
+        <div class="tag">WebGL2 · Domain Warp</div>
+        <div class="ch">Flow<br>Fields</div>
+        <div class="cs">Real-time fluid shader powered by triple-layer domain warping. Scroll or use buttons below to transform.</div>
+        <div class="arw"></div>
+      </div>
+    </div>
+    <div class="slide" id="s1">
+      <div class="card">
+        <div class="tag">Aurora Mode</div>
+        <div class="ch">Borealis</div>
+        <div class="cs">Palette shifts from deep ocean into aurora-green and electric violet as flow turbulence intensifies.</div>
+        <div class="srow">
+          <div><div class="sn">6</div><div class="sd2">FBM Octaves</div></div>
+          <div><div class="sn">3×</div><div class="sd2">Warp Layers</div></div>
+          <div><div class="sn">60</div><div class="sd2">FPS Target</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="slide" id="s2">
+      <div class="card">
+        <div class="tag">Solar Storm Mode</div>
+        <div class="ch">Inferno</div>
+        <div class="cs">Reds, oranges, and magentas ignite as scroll pressure drives deeper into the warped field.</div>
+      </div>
+    </div>
+    <div class="slide" id="s3">
+      <div class="card">
+        <div class="tag">Neon Void Mode</div>
+        <div class="ch">Into<br>the Void</div>
+        <div class="cs">Electric purples and cyans dissolve at maximum turbulence. Drop it on any website as a fixed canvas.</div>
+      </div>
+    </div>
+  </div>
+  <div class="sclbtn">
+    <button class="sbtn act" id="b0" onclick="goTo(0)">Ocean</button>
+    <button class="sbtn" id="b1" onclick="goTo(1)">Aurora</button>
+    <button class="sbtn" id="b2" onclick="goTo(2)">Storm</button>
+    <button class="sbtn" id="b3" onclick="goTo(3)">Void</button>
+  </div>
+</div>
+
+<script>
+(function(){
+const canvas=document.getElementById('gc');
+const wrap=document.getElementById('glWrap');
+const gl=canvas.getContext('webgl2',{antialias:false,powerPreference:'high-performance'});
+if(!gl){wrap.innerHTML='<div style="color:#fff;display:flex;align-items:center;justify-content:center;height:100%;font-size:1rem">WebGL2 not supported in this browser</div>';return;}
+
+const VS=`#version 300 es
+in vec2 aP;
+void main(){gl_Position=vec4(aP,0.,1.);}`;
+
+const FS=`#version 300 es
+precision highp float;
+uniform float uT,uS;
+uniform vec2 uR;
+out vec4 O;
+#define TAU 6.28318530718
+
+vec2 h22(vec2 p){
+  p=vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3)));
+  return -1.+2.*fract(sin(p)*43758.5453);
+}
+float gn(vec2 p){
+  vec2 i=floor(p),f=fract(p),u=f*f*(3.-2.*f);
+  return mix(mix(dot(h22(i),f),dot(h22(i+vec2(1,0)),f-vec2(1,0)),u.x),
+             mix(dot(h22(i+vec2(0,1)),f-vec2(0,1)),dot(h22(i+vec2(1,1)),f-vec2(1,1)),u.x),u.y);
+}
+float fbm(vec2 p){
+  float v=0.,a=.5;
+  mat2 m=mat2(.866,.5,-.5,.866);
+  for(int i=0;i<6;i++){v+=a*gn(p);p=m*p*2.07+vec2(3.7,1.7);a*=.5;}
+  return v;
+}
+vec3 pal(float t,vec3 a,vec3 b,vec3 c,vec3 d){return a+b*cos(TAU*(c*t+d));}
+vec3 gcol(float t,float s){
+  vec3 c0=pal(t,vec3(.07,.20,.52),vec3(.38,.36,.44),vec3(.72,.82,.98),vec3(.0,.16,.50));
+  vec3 c1=pal(t,vec3(.10,.40,.26),vec3(.36,.28,.40),vec3(.65,.88,.50),vec3(.16,.0,.52));
+  vec3 c2=pal(t,vec3(.52,.10,.20),vec3(.40,.42,.26),vec3(.56,.75,.98),vec3(.0,.20,.60));
+  vec3 c3=pal(t,vec3(.30,.04,.56),vec3(.42,.40,.30),vec3(.85,.55,.35),vec3(.40,.08,.16));
+  float ss=clamp(s*3.,0.,3.);
+  if(ss<1.)return mix(c0,c1,smoothstep(0.,1.,ss));
+  if(ss<2.)return mix(c1,c2,smoothstep(0.,1.,ss-1.));
+  return mix(c2,c3,smoothstep(0.,1.,ss-2.));
+}
+void main(){
+  vec2 uv=(gl_FragCoord.xy-.5*uR)/uR.y;
+  float s=uS;
+  float spd=.07+s*.13;
+  float t=uT*spd;
+  float zoom=2.0+s*3.0;
+  float ang=s*TAU*.22+t*.018;
+  float ca=cos(ang),sa=sin(ang);
+  vec2 p=mat2(ca,-sa,sa,ca)*(uv*zoom);
+  vec2 q=vec2(fbm(p+vec2(0.,0.)+t*.62),fbm(p+vec2(5.2,1.3)+t*.55));
+  vec2 r=vec2(fbm(p+2.8*q+vec2(1.7,9.2)+t*.42),fbm(p+2.8*q+vec2(8.3,2.8)+t*.37));
+  float f=fbm(p+3.5*r+t*.24);
+  float lv=fbm(p+1.8*q+t*.28);
+  float lines=pow(.5+.5*sin(lv*18.+t*2.2),14.)*(.6+.4*sin(f*22.+t));
+  float ct=f*1.5+t*.055;
+  vec3 col=gcol(ct,s);
+  vec3 sc=gcol(ct+.28,s);
+  col=mix(col,sc*2.4,lines*.52);
+  col=pow(clamp(col*1.32,0.,1.),vec3(.80));
+  float vd=dot(uv,uv);
+  col*=(1.-smoothstep(.3,1.1,sqrt(vd))*.90);
+  col*=.90+.10*sin(t*.38);
+  O=vec4(col,1.);
+}`;
+
+function cs(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){console.error(gl.getShaderInfoLog(s));return null;}return s;}
+const vs=cs(gl.VERTEX_SHADER,VS),fs=cs(gl.FRAGMENT_SHADER,FS);
+const prog=gl.createProgram();gl.attachShader(prog,vs);gl.attachShader(prog,fs);gl.linkProgram(prog);
+if(!gl.getProgramParameter(prog,gl.LINK_STATUS)){console.error(gl.getProgramInfoLog(prog));return;}
+
+const vao=gl.createVertexArray();gl.bindVertexArray(vao);
+const buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+const aP=gl.getAttribLocation(prog,'aP');gl.enableVertexAttribArray(aP);gl.vertexAttribPointer(aP,2,gl.FLOAT,false,0,0);
+
+const uT=gl.getUniformLocation(prog,'uT'),uS=gl.getUniformLocation(prog,'uS'),uR=gl.getUniformLocation(prog,'uR');
+
+function resize(){canvas.width=wrap.clientWidth;canvas.height=wrap.clientHeight;gl.viewport(0,0,canvas.width,canvas.height);}
+resize();
+const ro=new ResizeObserver(resize);ro.observe(wrap);
+
+let tgtS=0,curS=0,start=performance.now();
+let curSection=-1;
+
+function setSection(i){
+  if(curSection===i)return;
+  curSection=i;
+  ['s0','s1','s2','s3'].forEach((id,j)=>{document.getElementById(id).classList.toggle('vis',j===i);});
+  ['d0','d1','d2','d3'].forEach((id,j)=>{document.getElementById(id).classList.toggle('a',j===i);});
+  ['b0','b1','b2','b3'].forEach((id,j)=>{document.getElementById(id).classList.toggle('act',j===i);});
+}
+
+window.goTo=function(i){tgtS=i/3;};
+
+function render(){
+  const now=(performance.now()-start)*.001;
+  curS+=(tgtS-curS)*.055;
+  const pct=Math.round(curS*100);
+  document.getElementById('pb').style.width=pct+'%';
+  document.getElementById('pct').textContent=pct+'%';
+  const sec=Math.min(3,Math.floor(curS*3+.15));
+  setSection(sec);
+  gl.useProgram(prog);gl.bindVertexArray(vao);
+  gl.uniform1f(uT,now);gl.uniform1f(uS,curS);gl.uniform2f(uR,canvas.width,canvas.height);
+  gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+  requestAnimationFrame(render);
+}
+render();
+})();
+</script>
