@@ -99,7 +99,7 @@ export default function ServicesPage() {
     <>
       <PageHeader
         crumb="Services"
-        title="Our Technology Services"
+        title="Our  Services"
         subtitle="Senior engineering teams delivering end-to-end technology services to growing businesses."
       />
 

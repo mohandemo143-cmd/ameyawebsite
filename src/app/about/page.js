@@ -93,7 +93,7 @@ export default function AboutPage() {
     <>
       <PageHeader
         crumb="About"
-        title="About Ameya IT Solutions"
+        title="About Us"
         subtitle="A Hyderabad-based IT services company helping growing businesses build, modernize, and scale technology."
       />
       <Overview /> 

@@ -47,7 +47,7 @@ export default function PageHeader({
         {/* Subtitle */}
         {subtitle && (
           <p
-            className="mt-3 text-base max-w-2xl drop-shadow-md"
+            className="mt-3 text-base w-[40%]  drop-shadow-md"
             style={{ color: "#E0E7FF" }}
           >
             {subtitle}
