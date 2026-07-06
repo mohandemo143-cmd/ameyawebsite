@@ -72,7 +72,7 @@ export default async function ProjectPage({ params }) {
             </div>
           </Block>
 
-          <Block title="Results">
+          {/* <Block title="Results">
             <div className="grid sm:grid-cols-3 gap-4">
               {project.results.map((result) => (
                 <div
@@ -88,7 +88,7 @@ export default async function ProjectPage({ params }) {
                 </div>
               ))}
             </div>
-          </Block>
+          </Block> */}
 
           <div className="mt-12 text-center">
             <Link href="/contact" className="btn-primary">

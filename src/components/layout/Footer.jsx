@@ -20,8 +20,8 @@ export default function Footer() {
         <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl" />
       </div>
 
-      <div className="container-x relative z-10 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+      <div className="container-x relative z-10 pt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-6 gap-12">
           {/* Company Info */}
           <div className="lg:pr-10">
             <Logo light />
@@ -100,7 +100,7 @@ export default function Footer() {
 
         {/* Bottom */}
         <div
-          className="mt-12 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs"
+          className="py-4 flex flex-col md:flex-row items-center justify-between gap-4 text-xs"
           style={{
             borderTop: "1px solid rgba(255,255,255,0.15)",
             color: "#BFD5EA",

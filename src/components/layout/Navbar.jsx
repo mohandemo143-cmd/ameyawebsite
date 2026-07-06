@@ -8,12 +8,13 @@ import Logo from "./Logo";
 
 const links = [
   { href: "/", label: "Home" },
+  { href: "/about", label: "About Us" },
   { href: "/services", label: "Services" },
   // { href: "/solutions", label: "Solutions" },
 
-  { href: "https://ameyaportfolio.vercel.app/", label: "Portfolio", target: "_blank" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  // { href: "https://ameyaportfolio.vercel.app/", label: "Portfolio", target: "_blank" },
+  
+  { href: "/contact", label: "Contact Us" },
 ];
 
 export default function Navbar() {
