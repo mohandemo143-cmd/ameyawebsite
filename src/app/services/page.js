@@ -68,20 +68,7 @@ const services = [
       "Computer vision",
     ],
   },
-  {
-    icon: Database,
-    title: "SAP Services",
-    description:
-      "Enterprise-grade SAP integration, implementation, and continuous support for complex environments.",
-    gradient: "from-cyan-400 to-blue-500",
-    glow: "from-cyan-400/20 via-transparent to-blue-500/20",
-    bullets: [
-      "SAP CPI & CI-DS",
-      "Enterprise Integration",
-      "S/4HANA migrations",
-      "Fiori Development",
-    ],
-  },
+  
   {
     icon: Cloud,
     title: "Cloud Services",

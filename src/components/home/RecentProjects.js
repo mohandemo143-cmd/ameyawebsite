@@ -162,7 +162,7 @@ function ProjectShowcase({ project, index }) {
                 px-3
                 py-1
                 rounded-full
-                bg-slate-100
+                
                 text-slate-700
                 text-xs
                 font-medium
@@ -174,7 +174,7 @@ function ProjectShowcase({ project, index }) {
         </div>
 
         {/* Results */}
-        {project.results && (
+        {/* {project.results && (
           <div className="mt-8 grid grid-cols-3 gap-4">
             {project.results.slice(0, 3).map((result) => (
               <div key={result.label}>
@@ -188,7 +188,7 @@ function ProjectShowcase({ project, index }) {
               </div>
             ))}
           </div>
-        )}
+        )} */}
 
         {/* Link */}
         <div className="mt-8">

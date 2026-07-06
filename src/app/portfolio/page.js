@@ -64,22 +64,7 @@ export default function PortfolioPage() {
               <Link
                 key={project.slug}
                 href={`/portfolio/${project.slug}`}
-                className="
-                  group 
-                  relative 
-                  flex 
-                  flex-col 
-                  rounded-3xl 
-                  bg-white/70 
-                  backdrop-blur-xl 
-                  border 
-                  border-white/60 
-                  shadow-sm 
-                  hover:shadow-2xl 
-                  hover:-translate-y-2 
-                  transition-all 
-                  duration-500 
-                  overflow-hidden
+                className=" group    relative     flex  flex-col  rounded-3xl  bg-white/70    backdrop-blur-xl border border-white/60 shadow-sm  hover:shadow-2xl  hover:-translate-y-2  transition-all duration-500   overflow-hidden
                 "
               >
                 {/* Abstract Glowing Header */}

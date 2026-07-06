@@ -96,11 +96,9 @@ export default function AboutPage() {
         title="About Ameya IT Solutions"
         subtitle="A Hyderabad-based IT services company helping growing businesses build, modernize, and scale technology."
       />
-
-      <Overview />
-      <Values />
-      <Team />
-      <Timeline />
+      <Overview /> 
+      <MissionVision />
+       <Values />
     </>
   );
 }
@@ -146,29 +144,49 @@ function Overview() {
             </div>
           </div>
         </div>
-
-        {/* Stats Grid - Glassmorphism */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {stats.map(([number, label]) => (
-            <div
-              key={label}
-              className="text-center p-8 rounded-2xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-            >
-              <div className="text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-br from-navy to-blue text-transparent bg-clip-text">
-                {number}
-              </div>
-              <div className="mt-3 text-sm font-bold uppercase tracking-widest text-muted">
-                {label}
-              </div>
-            </div>
-          ))}
-        </div>
-
       </div>
     </section>
   );
 }
+function MissionVision() {
+  return (
+    <section className="pb-[80px] ">
+      <div className="container-x">
+        <div className="grid lg:grid-cols-2 gap-8">
+          <div className="rounded-3xl bg-white/70 backdrop-blur-xl border border-white/60 p-10  hover:shadow-sm transition-all duration-500">
+            <div className="eyebrow">Our Mission</div>
 
+            <h2 className="mt-3 text-3xl font-bold text-heading">
+              Driving Innovation Through Technology
+            </h2>
+
+            <p className="mt-6 text-body leading-8">
+              Ameya IT Solutions combines creativity and technology to deliver
+              AI, SAP, cloud, and immersive solutions. We innovate to solve
+              complex problems and empower clients to thrive in a connected,
+              future-ready world.
+            </p>
+          </div>
+
+          <div className="rounded-3xl bg-white/70 backdrop-blur-xl border border-white/60 p-10 shadow-sm hover:shadow-xl transition-all duration-500">
+            <div className="eyebrow">Our Vision</div>
+
+            <h2 className="mt-3 text-3xl font-bold text-heading">
+              Building the Future of Digital Transformation
+            </h2>
+
+            <p className="mt-6 text-body leading-8">
+              To be the catalyst for global digital transformation—turning bold
+              ideas into intelligent, future-ready solutions that inspire
+              continuous innovation, empower businesses, and accelerate their
+              success worldwide.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 function Values() {
   return (
     <section className="section relative">
@@ -218,71 +236,7 @@ function Values() {
   );
 }
 
-function Team() {
-  return (
-    <section className="section">
-      <div className="container-x">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="eyebrow">Team</div>
-          <h2 className="mt-3 text-3xl md:text-[42px] font-bold text-heading tracking-tight">
-            Our Leadership
-          </h2>
-        </div>
 
-        <div className="grid md:grid-cols-3 gap-10 max-w-4xl mx-auto">
-          {team.map((member) => (
-            <div
-              key={member.name}
-              className="text-center group"
-            >
-              {/* Avatar with Animated Border */}
-              <div className="relative w-28 h-28 mx-auto mb-6">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-500 to-cyan-400 blur opacity-40 group-hover:opacity-100 transition-opacity duration-500" />
-                <div
-                  className="relative w-full h-full rounded-full flex items-center justify-center text-white text-3xl font-black shadow-xl group-hover:scale-105 transition-transform duration-500 border-2 border-white/80 backdrop-blur-md"
-                  style={{
-                    background: "linear-gradient(135deg, var(--navy) 0%, #1565C0 100%)",
-                  }}
-                >
-                  {member.name
-                    .split(" ")
-                    .map((x) => x[0])
-                    .join("")}
-                </div>
-              </div>
-
-              <h3 className="text-xl font-bold text-heading">
-                {member.name}
-              </h3>
-
-              <div className="text-sm mt-2 font-medium text-muted uppercase tracking-wider">
-                {member.role}
-              </div>
-
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 inline-flex text-teal/70 hover:text-teal hover:scale-110 transition-all duration-300"
-                aria-label={`LinkedIn profile of ${member.name}`}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                </svg>
-              </a>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function Timeline() {
   return (

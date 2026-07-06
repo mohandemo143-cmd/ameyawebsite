@@ -175,17 +175,17 @@ export default function ContactPage() {
 
           {/* Contact Info Side (Spans 5 columns) */}
           <div className="lg:col-span-5 space-y-6 flex flex-col justify-between">
-            <div className="space-y-6">
+            <div className="space-y-3">
               <Info
                 icon={MapPin}
                 title="Office Address"
-                lines={["Hyderabad, Telangana, India", "500081"]}
+                lines={["3rd Floor, Plot No. 37/A,Vengal Rao Nagar,Sunder Nagar,Hyderabad, Telangana 500038"]}
               />
 
               <Info
                 icon={Phone}
                 title="Phone"
-                lines={["+91 7993174833", "Mon-Sat 9am-6pm"]}
+                lines={["+91 7993174833"]}
               />
 
               <Info
@@ -230,15 +230,17 @@ export default function ContactPage() {
             </div>
 
             {/* Map iframe wrapped in a premium border */}
-            <div className="mt-8 pt-6 border-t border-brand/40">
-              <iframe
-                title="Office Location"
-                src="https://www.google.com/maps?q=Hyderabad&output=embed"
-                loading="lazy"
-                className="w-full rounded-2xl border-[6px] border-white/80 shadow-lg bg-white/50"
-                style={{ height: "240px" }}
-              />
-            </div>
+            <div className="mt-3 pt-1 border-t border-brand/40">
+  <iframe
+    title="Office Location"
+    src="https://www.google.com/maps?q=3rd+floor,+Plot+No.+37/A,+Vengal+Rao+Nagar,+Sunder+Nagar,+Hyderabad,+Telangana+500038&output=embed"
+    loading="lazy"
+    className="w-full rounded-2xl border-[6px] border-white/80 shadow-lg bg-white/50"
+    style={{ height: "240px" }}
+    allowFullScreen
+    referrerPolicy="no-referrer-when-downgrade"
+  />
+</div>
           </div>
 
         </div>

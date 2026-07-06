@@ -9,9 +9,9 @@ import Logo from "./Logo";
 const links = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
-  { href: "/solutions", label: "Solutions" },
-  
-  { href: "/portfolio", label: "Portfolio" },
+  // { href: "/solutions", label: "Solutions" },
+
+  { href: "https://ameyaportfolio.vercel.app/", label: "Portfolio", target: "_blank" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -22,7 +22,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b h-16">
-  <div className="container-x flex items-center justify-between h-16">
+      <div className="container-x flex items-center justify-between h-16">
         <Logo />
 
         <nav className="hidden lg:flex items-center gap-7">
@@ -33,11 +33,10 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative py-5 text-sm font-medium ${
-                  isActive
-                    ? "text-[#1565C0]"
-                    : "text-[#333F4D]"
-                }`}
+                target={link.target}
+                rel={link.target === "_blank" ? "noopener noreferrer" : undefined}
+                className={`relative py-5 text-sm font-medium ${isActive ? "text-[#1565C0]" : "text-[#333F4D]"
+                  }`}
               >
                 {link.label}
 
@@ -49,7 +48,7 @@ export default function Navbar() {
           })}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="hidden lg:block text-[#fff]">
           <Link
             href="/contact"
             className="bg-[#1565C0] text-white px-5 py-3 rounded-lg"

@@ -238,13 +238,7 @@ export default function Hero() {
       <div className="container-x relative z-10 w-full flex flex-col items-center justify-center text-center px-4">
 
         {/* Badge */}
-        <div className="inline-flex items-center gap-2.5 rounded-full bg-white/10 backdrop-blur-md px-4 py-2 text-sm font-semibold text-cyan-200 border border-white/20 mb-8 shadow-xl">
-          <span className="relative flex h-2 w-2 shrink-0">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500" />
-          </span>
-          IT Services &amp; Consulting — Hyderabad
-        </div>
+        
 
         {/* Heading */}
        {/* Heading */}
@@ -266,16 +260,7 @@ export default function Hero() {
         <div className="mt-10 flex flex-wrap justify-center gap-4">
          <Link
   href="/services"
-  className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl
-  bg-gradient-to-r from-cyan-400 via-sky-500 to-blue-600
-  px-8 py-3.5
-  text-sm font-semibold text-white
-  shadow-[0_10px_35px_rgba(14,165,233,0.35)]
-  transition-all duration-300
-  hover:-translate-y-1
-  hover:scale-[1.03]
-  hover:shadow-[0_18px_45px_rgba(14,165,233,0.55)]
-  active:scale-95"
+  className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl  bg-gradient-to-r from-cyan-400 via-sky-500 to-blue-600 px-8 py-3.5 text-sm font-semibold text-white shadow-[0_10px_35px_rgba(14,165,233,0.35)] transition-all duration-300  hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_18px_45px_rgba(14,165,233,0.55)] active:scale-95"
 >
   {/* Animated Shine */}
   <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
@@ -303,19 +288,8 @@ export default function Hero() {
   </span>
 </Link>
 
-      <Link
-  href="/contact"
-  className="group inline-flex items-center gap-2 rounded-xl
-  border-2 border-white
-  bg-transparent
-  px-8 py-3.5
-  text-sm font-semibold
-  text-white
-  transition-all duration-300
-  hover:bg-white
-  hover:text-slate-900
-  hover:shadow-xl
-  hover:scale-105"
+      <Link href="/contact"
+  className="group inline-flex items-center gap-2 rounded-xl border-2 border-white bg-transparent px-8 py-3.5 text-sm font-semibold text-white transition-all duration-300 bg-white hover:text-slate-900 hover:shadow-xl hover:scale-105"
 >
   Contact Us
 

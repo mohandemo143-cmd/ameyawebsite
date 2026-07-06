@@ -72,7 +72,7 @@ export default function Services() {
 
       <div className="container-x relative z-10">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="eyebrow">
             Our Services
           </div>
