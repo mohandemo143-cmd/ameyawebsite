@@ -1,6 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { PROJECTS } from "@/data/projects";
+import { PROJECTS } from "@/data/projects"; // Adjust path if needed
 
 export default function RecentProjects() {
   const featuredProjects = PROJECTS.slice(0, 3);
@@ -16,14 +17,10 @@ export default function RecentProjects() {
       <div className="container-x relative z-10">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <div className="eyebrow">
-            Portfolio
-          </div>
-
+          <div className="eyebrow">Portfolio</div>
           <h2 className="mt-3 text-3xl md:text-[42px] font-bold text-heading">
             Featured Projects
           </h2>
-
           <p className="mt-4 text-body leading-relaxed">
             A selection of enterprise platforms, analytics systems, and
             digital solutions we've delivered.
@@ -66,7 +63,6 @@ export default function RecentProjects() {
             "
           >
             View Full Portfolio
-
             <ArrowRight
               size={18}
               className="group-hover:translate-x-1 transition-transform duration-300"
@@ -109,41 +105,45 @@ function ProjectShowcase({ project, index }) {
       <div
         className={`
           relative
-          h-[280px]
-          md:h-[340px]
+          w-full
+          aspect-[4/3]
           rounded-3xl
           overflow-hidden
-          bg-gradient-to-br
-          ${project.gradient || "from-[#1565C0] to-[#00ACC1]"}
+          bg-slate-100
           ${reverse ? "lg:order-2" : ""}
         `}
       >
-        <div className="absolute inset-0 flex items-center justify-center">
-          {Icon && (
-            <Icon
-              size={110}
-              strokeWidth={1.4}
-              className="text-white/90"
-            />
-          )}
-        </div>
+        {project.image ? (
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+          />
+        ) : (
+          <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-br ${project.gradient || "from-[#1565C0] to-[#00ACC1]"}`}>
+            {Icon && (
+              <Icon size={110} strokeWidth={1.4} className="text-white/90" />
+            )}
+          </div>
+        )}
 
-        <div className="absolute top-5 left-5">
-          <div className="rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm">
+        {/* Overlay Badges */}
+        <div className="absolute top-5 left-5 z-10">
+          <div className="rounded-full bg-white/95 px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm">
             {project.category}
           </div>
         </div>
 
-        <div className="absolute bottom-5 right-5 rounded-full bg-white/20 px-4 py-2 backdrop-blur-md text-white text-sm">
+        <div className="absolute bottom-5 right-5 z-10 rounded-full bg-black/40 px-4 py-2 backdrop-blur-md text-white text-sm font-medium border border-white/10">
           Case Study
         </div>
       </div>
 
       {/* Content */}
       <div className={reverse ? "lg:order-1" : ""}>
-        <div className="eyebrow">
-          Featured Project
-        </div>
+        <div className="eyebrow">Featured Project</div>
 
         <h3 className="mt-3 text-2xl md:text-4xl font-bold text-heading">
           {project.title}
@@ -162,7 +162,7 @@ function ProjectShowcase({ project, index }) {
                 px-3
                 py-1
                 rounded-full
-                
+                bg-slate-100
                 text-slate-700
                 text-xs
                 font-medium
@@ -172,23 +172,6 @@ function ProjectShowcase({ project, index }) {
             </span>
           ))}
         </div>
-
-        {/* Results */}
-        {/* {project.results && (
-          <div className="mt-8 grid grid-cols-3 gap-4">
-            {project.results.slice(0, 3).map((result) => (
-              <div key={result.label}>
-                <div className="text-2xl font-bold text-heading">
-                  {result.num}
-                </div>
-
-                <div className="text-xs text-muted mt-1">
-                  {result.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        )} */}
 
         {/* Link */}
         <div className="mt-8">
@@ -205,7 +188,6 @@ function ProjectShowcase({ project, index }) {
             "
           >
             View Case Study
-
             <ArrowRight
               size={18}
               className="transition-transform duration-300 group-hover:translate-x-1"

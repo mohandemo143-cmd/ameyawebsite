@@ -14,22 +14,18 @@ export default function Footer() {
       {/* Top Accent Line */}
       <div className="h-1 w-full bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400" />
 
-      {/* Background Glow */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-20 -right-20 w-72 h-72 bg-cyan-400/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl" />
+      {/* Background Glows - Optimized */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-32 -right-20 w-80 h-80 bg-cyan-400/10 rounded-full blur-[100px]" />
+        <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-blue-500/10 rounded-full blur-[100px]" />
       </div>
 
-      <div className="container-x relative z-10 pt-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-6 gap-12">
+      <div className="container-x relative z-10 pt-8 pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {/* Company Info */}
-          <div className="lg:pr-10">
-            <Logo light />
-
-            <p
-              className="mt-4 text-sm leading-7"
-              style={{ color: "#D6E4F0" }}
-            >
+          <div>
+            <Logo light className="mb-5" />
+            <p className="text-sm leading-relaxed text-[#D6E4F0]/90 max-w-md">
               Custom software, AI automation, SAP, cloud solutions, and digital
               transformation services for growing businesses worldwide.
             </p>
@@ -46,15 +42,12 @@ export default function Footer() {
             ]}
           />
 
-          {/* Careers */}
           {/* Contact Us */}
-          <div className="lg:mx-auto text-white">
-            <span className="mb-4 text-sm font-bold text-[#06b6d4]">
+          <div>
+            <span className="mb-4 block text-sm font-bold text-[#06b6d4]">
               Contact Us
             </span>
-
-            <div className="space-y-4 text-sm text-[#D6E4F0] mt-5">
-              {/* Phone */}
+            <div className="space-y-4 text-sm">
               <div>
                 <p className="font-semibold text-white">Phone</p>
                 <a
@@ -65,7 +58,6 @@ export default function Footer() {
                 </a>
               </div>
 
-              {/* Email */}
               <div>
                 <p className="font-semibold text-white">Email</p>
                 <a
@@ -76,7 +68,6 @@ export default function Footer() {
                 </a>
               </div>
 
-              {/* Location */}
               <div>
                 <p className="font-semibold text-white">Location</p>
                 <a
@@ -98,29 +89,22 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom */}
+        {/* Bottom Bar */}
         <div
-          className="py-4 flex flex-col md:flex-row items-center justify-between gap-4 text-xs"
-          style={{
-            borderTop: "1px solid rgba(255,255,255,0.15)",
-            color: "#BFD5EA",
-          }}
+          className="mt-12 pt-6 border-t border-white/15 flex flex-col md:flex-row items-center justify-between gap-4 text-xs"
+          style={{ color: "#BFD5EA" }}
         >
-          <p className="text-center md:text-left">
-            © 2026 Ameya IT Solutions. All Rights Reserved.
-          </p>
-
+          <p>© 2026 Ameya IT Solutions. All Rights Reserved.</p>
           <div className="flex flex-wrap justify-center gap-6">
             <Link
               href="/privacy-policy"
-              className="text-[#D6E4F0] hover:text-[#00ACC1] transition-colors duration-300"
+              className="hover:text-[#00ACC1] transition-colors duration-300"
             >
               Privacy Policy
             </Link>
-
             <Link
               href="/terms-of-service"
-              className="text-[#D6E4F0] hover:text-[#00ACC1] transition-colors duration-300"
+              className="hover:text-[#00ACC1] transition-colors duration-300"
             >
               Terms of Service
             </Link>
@@ -133,12 +117,11 @@ export default function Footer() {
 
 function FooterCol({ title, links }) {
   return (
-    <div className="lg:mx-auto">
-      <span className="text-[#06b6d4] text-sm font-bold ">
+    <div>
+      <span className="text-[#06b6d4] text-sm font-bold block mb-4">
         {title}
       </span>
-
-      <ul className="space-y-3 text-sm mt-5">
+      <ul className="space-y-3 text-sm">
         {links.map((link, index) => (
           <li key={index}>
             <Link
