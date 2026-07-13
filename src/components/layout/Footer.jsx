@@ -21,26 +21,30 @@ export default function Footer() {
       </div>
 
       <div className="container-x relative z-10 pt-8 pb-8">
+        {/* Kept your original 3-column grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          
           {/* Company Info */}
           <div>
             <Logo light className="mb-5" />
             <p className="text-sm leading-relaxed text-[#D6E4F0]/90 max-w-md">
-              Custom software, AI automation, SAP, cloud solutions, and digital
+              Custom software, AI automation, cloud solutions, and digital
               transformation services for growing businesses worldwide.
             </p>
           </div>
 
-          {/* Company Links */}
-          <FooterCol
-            title="Company"
-            links={[
-              { href: "/about", label: "About Us" },
-              { href: "/services", label: "Services" },
-              { href: "/portfolio", label: "Portfolio" },
-              { href: "/contact", label: "Contact" },
-            ]}
-          />
+          {/* Company Links - JUST ADDED: lg:justify-self-center to push it right */}
+          <div className="lg:justify-self-center">
+            <FooterCol
+              title="Company"
+              links={[
+                { href: "/about", label: "About Us" },
+                { href: "/services", label: "Services" },
+                { href: "/portfolio", label: "Portfolio" },
+                { href: "/contact", label: "Contact" },
+              ]}
+            />
+          </div>
 
           {/* Contact Us */}
           <div>

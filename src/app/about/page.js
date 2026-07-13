@@ -69,17 +69,7 @@ const milestones = [
   {
     year: "2021",
     title: "Expanded to 30+ Team",
-    description: "Built dedicated SAP and cloud practices.",
-  },
-  {
-    year: "2023",
-    title: "SAP Partnership",
-    description: "Formalized our SAP partner relationship.",
-  },
-  {
-    year: "2024",
-    title: "100+ Projects Milestone",
-    description: "Crossed 100 successful client deliveries.",
+    description: "Built dedicated cloud practices.",
   },
   {
     year: "2026",
@@ -87,7 +77,6 @@ const milestones = [
     description: "Trusted by clients across India and abroad.",
   },
 ];
-
 export default function AboutPage() {
   return (
     <>
@@ -120,9 +109,7 @@ function Overview() {
             <p>
               Ameya IT Solutions was founded in 2018 with a simple belief: businesses deserve software partners who behave like long-term collaborators, not short-term vendors.
             </p>
-            <p>
-              We bring senior engineering talent, disciplined delivery, and deep domain context to every engagement. Our teams work across custom software, AI, cloud technologies, and SAP—where we provide hands-on expertise in CI-DS and enterprise integration tools to handle your most complex data landscapes.
-            </p>
+           
             <p>
               Today, we work with clients across India and abroad, supporting enterprises, government initiatives, and EdTech platforms. We build robust learning systems with flawless progression logic, ensuring users seamlessly unlock subsequent modules after passing tests without friction.
             </p>
@@ -162,7 +149,7 @@ function MissionVision() {
 
             <p className="mt-6 text-body leading-8">
               Ameya IT Solutions combines creativity and technology to deliver
-              AI, SAP, cloud, and immersive solutions. We innovate to solve
+              AI, cloud, and immersive solutions. We innovate to solve
               complex problems and empower clients to thrive in a connected,
               future-ready world.
             </p>

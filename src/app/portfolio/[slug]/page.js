@@ -4,6 +4,13 @@ import { ChevronRight } from "lucide-react";
 
 import { PROJECTS } from "@/data/projects";
 
+// THIS IS THE NEW FUNCTION THAT FIXES S3 EXPORT
+export async function generateStaticParams() {
+  return PROJECTS.map((project) => ({
+    slug: project.slug,
+  }));
+}
+
 export default async function ProjectPage({ params }) {
   const { slug } = await params;
 
